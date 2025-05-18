@@ -1,0 +1,19 @@
+name: Lint
+
+on: [push, pull_request]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Terraform formatting check
+      - name: Terraform fmt
+        run: terraform -chdir=terraform fmt -check
+
+      # ShellCheck for our Bash script
+      - name: ShellCheck
+        uses: ludeeus/action-shellcheck@v2
+        with:
+          scandir: files   # lint everything in /files
