@@ -12,8 +12,8 @@ jobs:
       - name: Terraform fmt
         run: terraform -chdir=terraform fmt -check
 
-      # ShellCheck for our Bash script
-      - name: ShellCheck
-        uses: ludeeus/action-shellcheck@v2
-        with:
-          scandir: files   # lint everything in /files
+- name: ShellCheck
+  uses: ludeeus/action-shellcheck@v2.0.0   # <- add .0.0   (or @latest)
+
+  with:
+    scandir: files
