@@ -12,8 +12,7 @@ jobs:
       - name: Terraform fmt
         run: terraform -chdir=terraform fmt -check
 
-      # ── ShellCheck on all scripts in /files ─────────────────
       - name: ShellCheck
-        uses: ludeeus/action-shellcheck@3.0.2
+        uses: ludeeus/action-shellcheck@master   # <- working ref
         with:
           scandir: files
