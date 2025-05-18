@@ -14,6 +14,6 @@ jobs:
 
       # ── ShellCheck on all scripts in /files ─────────────────
       - name: ShellCheck
-        uses: ludeeus/action-shellcheck@v2.0.0   # pin a real tag
+        uses: ludeeus/action-shellcheck@3.0.2
         with:
           scandir: files
