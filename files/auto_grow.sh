@@ -56,15 +56,18 @@ CURRENT_SIZE=$(aws ec2 describe-volumes \
 [[ ! "$CURRENT_SIZE" =~ ^[0-9]+$ ]] && { echo "$DATE - ❌ ERROR: Size fetch failed"; exit 1; }
 
 TARGET_SIZE=$(( CURRENT_SIZE + (CURRENT_SIZE * GROWTH_PERCENTAGE / 100) ))
-echo "$DATE - Increasing volume $VOLUME_ID from ${CURRENT_SIZE}GiB to ${TARGET_SIZE}GiB" >> "$LOG_FILE"
+{
+  echo "$DATE - Increasing volume $VOLUME_ID from ${CURRENT_SIZE}GiB to ${TARGET_SIZE}GiB"
+  aws ec2 modify-volume --region "$REGION" --volume-id "$VOLUME_ID" --size "$TARGET_SIZE" 2>&1
+} >> "$LOG_FILE"
 
-### 6 — Modify volume & wait
-aws ec2 modify-volume --region "$REGION" --volume-id "$VOLUME_ID" --size "$TARGET_SIZE" >> "$LOG_FILE" 2>&1
 aws ec2 wait volume-modification-completed --region "$REGION" --volume-id "$VOLUME_ID"
 
 ### 7 — Grow partition & filesystem
-growpart /dev/xvda 1   >> "$LOG_FILE" 2>&1
-resize2fs /dev/xvda1   >> "$LOG_FILE" 2>&1
+{
+  growpart /dev/xvda 1   2>&1
+  resize2fs /dev/xvda1   2>&1
+  echo "$DATE - ✅ Resize complete."
+} >> "$LOG_FILE"
 
-echo "$DATE - ✅ Resize complete." >> "$LOG_FILE"
 ### END auto_grow.sh ##############################################
