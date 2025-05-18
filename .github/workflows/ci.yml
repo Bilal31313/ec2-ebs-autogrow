@@ -8,11 +8,18 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # ── Install Terraform (latest 1.x) ───────────────────────
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.7.5          # pin or omit for latest
+
       # ── Terraform formatting check ──────────────────────────
       - name: Terraform fmt
         run: terraform -chdir=terraform fmt -check
 
+      # ── ShellCheck lint ─────────────────────────────────────
       - name: ShellCheck
-        uses: ludeeus/action-shellcheck@master   # <- working ref
+        uses: ludeeus/action-shellcheck@master
         with:
           scandir: files
