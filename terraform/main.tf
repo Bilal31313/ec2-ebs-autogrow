@@ -17,22 +17,22 @@ resource "aws_iam_role" "autogrow_role" {
   assume_role_policy = jsonencode({
     Version = "2012-10-17",
     Statement = [{
-      Effect = "Allow",
+      Effect    = "Allow",
       Principal = { Service = "ec2.amazonaws.com" },
-      Action = "sts:AssumeRole"
+      Action    = "sts:AssumeRole"
     }]
   })
 }
 
 resource "aws_iam_role_policy" "autogrow_policy" {
-  name   = "ebs-autogrow-inline"
-  role   = aws_iam_role.autogrow_role.id
+  name = "ebs-autogrow-inline"
+  role = aws_iam_role.autogrow_role.id
   policy = jsonencode({
     Version = "2012-10-17",
     Statement = [
       {
-        Effect   = "Allow",
-        Action   = [
+        Effect = "Allow",
+        Action = [
           "ec2:DescribeInstances",
           "ec2:DescribeVolumes",
           "ec2:ModifyVolume"
@@ -110,7 +110,7 @@ resource "aws_instance" "autogrow_host" {
 
   metadata_options {
     http_endpoint = "enabled"
-    http_tokens   = "required"  # IMDSv2 only
+    http_tokens   = "required" # IMDSv2 only
   }
 
   user_data = <<EOF

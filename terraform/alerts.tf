@@ -67,8 +67,8 @@ resource "aws_sns_topic" "alerts" { name = "ebs-autogrow-alerts" }
 resource "aws_sns_topic_subscription" "email" {
   topic_arn = aws_sns_topic.alerts.arn
   protocol  = "email"
-  endpoint  = "bilalkhawaja04@outlook.com" 
-# replace to endpoint to your email
+  endpoint  = "bilalkhawaja04@outlook.com"
+  # replace to endpoint to your email
 }
 
 # Alarm fires if an auto-grow event occurs
