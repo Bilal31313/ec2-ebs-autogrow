@@ -14,11 +14,10 @@ DATE=$(date "+%Y-%m-%d %H:%M:%S")
 
 ### 1 — Check disk usage
 USAGE=$(df -h "$MOUNT_POINT" | awk 'NR==2 {gsub("%",""); print $5}')
-# shellcheck disable=SC2129  # ignore “combine redirects” style note
-echo "$DATE - Usage is ${USAGE}% on $MOUNT_POINT" >> "$LOG_FILE"
-[ "$USAGE" -lt "$THRESHOLD" ] && exit 0
-
-echo "$DATE - Threshold exceeded. Starting EBS grow process." >> "$LOG_FILE"
+{
+  echo "$DATE - Usage is ${USAGE}% on $MOUNT_POINT"
+  echo "$DATE - Threshold exceeded. Starting EBS grow process."
+} >> "$LOG_FILE"
 
 ### 2 — Fetch IMDSv2 token
 TOKEN=$(curl -sX PUT "http://169.254.169.254/latest/api/token" \
