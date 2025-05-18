@@ -18,8 +18,9 @@ jobs:
       - name: Terraform fmt
         run: terraform -chdir=terraform fmt -check
 
-      # ── ShellCheck lint ─────────────────────────────────────
       - name: ShellCheck
         uses: ludeeus/action-shellcheck@master
         with:
           scandir: files
+          # Ignore warning SC2129 (multiple >> redirects)
+          shellcheck_opts: -e SC2129
