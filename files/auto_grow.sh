@@ -5,6 +5,7 @@
 # • Logs to /var/log/ebs-monitor.log.
 # Requirements: awscli v2, growpart (cloud-utils-growpart), resize2fs.
 
+# shellcheck disable=SC2034  # THRESHOLD is used further down
 ### CONFIG
 MOUNT_POINT="/"          # filesystem to monitor
 THRESHOLD=90             # trigger percentage
