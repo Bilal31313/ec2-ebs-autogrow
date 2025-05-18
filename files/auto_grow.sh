@@ -14,6 +14,7 @@ DATE=$(date "+%Y-%m-%d %H:%M:%S")
 
 ### 1 — Check disk usage
 USAGE=$(df -h "$MOUNT_POINT" | awk 'NR==2 {gsub("%",""); print $5}')
+# shellcheck disable=SC2129  # ignore “combine redirects” style note
 echo "$DATE - Usage is ${USAGE}% on $MOUNT_POINT" >> "$LOG_FILE"
 [ "$USAGE" -lt "$THRESHOLD" ] && exit 0
 
