@@ -32,6 +32,14 @@ Cron	Runs every 10 min, logs to /var/log/ebs-monitor.log
 Terraform	EC2 + IAM + CloudWatch Logs + SNS + user_data bootstrap
 CI/CD	GitHub Actions → terraform fmt -check + ShellCheck
 
+🔒 Security
+
+- EC2 uses IMDSv2 to prevent credential exposure.
+- IAM role scoped to modify only its attached EBS volume.
+- No hardcoded credentials; all AWS calls use EC2 role auth.
+- Logs are routed to CloudWatch and rotated locally via cron.
+
+
 📸 Proof-of-life
 Before grow	After grow	Alert e-mail
 ![image](https://github.com/user-attachments/assets/33046b86-f3e4-4fc6-9cf8-eb8d45a75a54)
